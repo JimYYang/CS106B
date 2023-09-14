@@ -33,3 +33,5 @@
 
 /* Of course, once a file is tracked in your repository, it will continue to be tracked even if it matches an entry in an applicable .gitignore file. */
 .DS_Store
+
+book/*
