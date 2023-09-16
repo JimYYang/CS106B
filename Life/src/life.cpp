@@ -52,9 +52,6 @@ int main() {
     char option;
     menu(option, curr_colony, next_colony, cnt, warping_indicator(), gui);
 
-
-
-
     cout << "Have a nice Life!" << endl;
     fin.close();
     return 0;
