@@ -37,4 +37,4 @@
 book/*
 build-Life-Qt_6_4_1_for_macOS-Debug/*
 build*
-
+*.user
