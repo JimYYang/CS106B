@@ -138,9 +138,9 @@ void count_cell_nowarpping(const Grid<char>& g, Vector<Vector<int>>& cnt) {
     }
 }
 
-void evolution(Grid<char>& curr_colony, Grid<char>& next_colony, Vector<Vector<int>>& cnt, int frames, bool warpping, LifeGUI& gui) {
+void evolution(grid<char>& curr_colony, grid<char>& next_colony, vector<vector<int>>& cnt, int frames, bool warpping, lifegui& gui) {
     for (int m = 0; m < frames; m ++) {
-        clearConsole();
+        clearconsole();
 
         for (int i = 0; i < curr_colony.numRows(); i ++)
             for (int j = 0; j < curr_colony.numCols(); j ++)
