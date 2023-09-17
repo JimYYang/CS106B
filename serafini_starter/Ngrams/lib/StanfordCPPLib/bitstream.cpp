@@ -136,9 +136,9 @@ long ibitstream::size() {
         error("ibitstream::size: Cannot get size of stream which is not open.");
     }
     clear();					// clear any error state
-    streampos cur = tellg();	// save current streampos
+    std::streampos cur = tellg();	// save current streampos
     seekg(0, std::ios::end);			// seek to end
-    streampos end = tellg();	// get offset
+    std::streampos end = tellg();	// get offset
     seekg(cur);					// seek back to original pos
     return long(end);
 }
@@ -226,9 +226,9 @@ long obitstream::size() {
         error("obitstream::size: stream is not open");
     }
     clear();					// clear any error state
-    streampos cur = tellp();	// save current streampos
+    std::streampos cur = tellp();	// save current streampos
     seekp(0, std::ios::end);			// seek to end
-    streampos end = tellp();	// get offset
+    std::streampos end = tellp();	// get offset
     seekp(cur);					// seek back to original pos
     return long(end);
 }
