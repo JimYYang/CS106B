@@ -181,6 +181,8 @@ bool warping_indicator() {
     cout << "Should the simulation warp around the grid (y/n)? ";
     cin >> warp_option;
 
+    // !cin reprents that cin is fasle state -> cin == 0
+    // cin.ignore(999, '\n') ignore 999 ch or until meet '\n'
     while (!cin || cin.peek() != '\n') {
         cout << "Invalid input, try again.\n";
         cin.clear();
