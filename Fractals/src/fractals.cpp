@@ -27,8 +27,28 @@ const int BRANCH_COLOR = 0x8b7765; /* Color of all branches of recursive tree (l
  * @param size - The length of one side of the triangle.
  * @param order - The order of the fractal.
  */
+
+void drawTriangle(GWindow& gw, double x, double y, double size) {
+    gw.drawLine(x, y, x + size, y);
+    gw.drawLine(x + size, y, x + size / 2, y + (sqrt(3) / 2) * size);
+    gw.drawLine( x + size / 2, y + (sqrt(3) / 2) * size, x, y);
+}
 void drawSierpinskiTriangle(GWindow& gw, double x, double y, double size, int order) {
     // TODO: write this function
+    if (x < 0 || y < 0 || y < 0 || size < 0 || order < 0) {
+        throw("invalid input!");
+        return;
+    }
+
+    if (order == 1) {
+        drawTriangle(gw, x, y, size);
+        return;
+    }
+    else {
+        drawSierpinskiTriangle(gw, x, y, size / 2, order - 1);
+        drawSierpinskiTriangle(gw, x + size / 2, y, size / 2, order - 1);
+        drawSierpinskiTriangle(gw, x + size / 4, y + (sqrt(3) / 4) * size, size / 2, order - 1);
+    }
 }
 
 /**
@@ -43,8 +63,28 @@ void drawSierpinskiTriangle(GWindow& gw, double x, double y, double size, int or
  * @param size - The length of one side of the bounding box.
  * @param order - The order of the fractal.
  */
+void drawTreeHelper(GWindow& gw, double x, double y, double size, int order, double angle) {
+    if (x < 0 || y < 0 || y < 0 || size < 0 || order < 0) {
+        throw("invalid input!");
+        return;
+    }
+    else if (order) {
+        if (order == 1)
+            gw.setColor(LEAF_COLOR);
+        else
+            gw.setColor(BRANCH_COLOR);
+        GPoint tip = gw.drawPolarLine(x, y, size, angle);
+        int theta = 45;
+        for (int i = 0; i < 7; i++) {
+            drawTreeHelper(gw, tip.getX(), tip.getY(), size / 2, order - 1, angle - 90 + theta);
+            theta += 15;
+        }
+    }
+
+}
 void drawTree(GWindow& gw, double x, double y, double size, int order) {
     // TODO: write this function
+    drawTreeHelper(gw, x + size / 2, y + size, size / 2, order, 90);
 }
 
 /**
@@ -76,6 +116,18 @@ void mandelbrotSet(GWindow& gw, double minX, double incX,
     Grid<int> pixels = image.toGrid(); // Convert image to grid
 
     // TODO: Put your Mandelbrot Set code here
+    for (int col = 0; col < pixels.numCols(); col++) {
+        for (int row = 0; row < pixels.numRows(); row ++) {
+            int numIterations = mandelbrotSetIterations(Complex(minX + col * incX, minY + row * incY), maxIterations);
+            if (color) {
+                if (numIterations == maxIterations)
+                    pixels[row][col] = color;
+            }
+            else {
+                pixels[row][col] = palette[numIterations % palette.size()];
+            }
+        }
+    }
 
     image.fromGrid(pixels); // Converts and puts the grid back into the image
 }
@@ -90,9 +142,17 @@ void mandelbrotSet(GWindow& gw, double minX, double incX,
  * @param maxIterations - The maximum number of iterations to run recursive step
  * @return number of iterations needed to determine if c is unbounded
  */
+
+int mandelbrotSetIterations(Complex z, Complex c, int maxIterations, int numIterations) {
+    // TODO: write this function
+    if (z.abs() > 4 || numIterations == maxIterations)
+        return numIterations;
+    return mandelbrotSetIterations(z * z + c, c, maxIterations, numIterations + 1);
+}
+
 int mandelbrotSetIterations(Complex c, int maxIterations) {
     // TODO: Write this function
-    return 0; // Only here to make this compile
+    return mandelbrotSetIterations(Complex (0, 0), c, maxIterations, 0);
 }
 /**
  * An iteration of the Mandelbrot Set recursive formula with given values z and c, to
@@ -105,10 +165,12 @@ int mandelbrotSetIterations(Complex c, int maxIterations) {
  * @param remainingIterations - The remaining number of iterations to run recursive step
  * @return number of iterations needed to determine if c is unbounded
  */
-int mandelbrotSetIterations(Complex z, Complex c, int remainingIterations) {
-    // TODO: write this function
-    return 0; // Only here to make this compile
-}
+// int mandelbrotSetIterations(Complex z, Complex c, int maxIterations, int numIterations) {
+    // // TODO: write this function
+    // if (z.abs() > 4 || numIterations == maxIterations)
+        // return numIterations;
+    // return mandelbrotSetIterations(z * z + c, c, maxIterations, numIterations + 1);
+// }
 
 // Helper function to set the palette
 Vector<int> setPalette() {
