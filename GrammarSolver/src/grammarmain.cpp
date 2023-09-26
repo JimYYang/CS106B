@@ -53,7 +53,7 @@ int main() {
 
             // print the vector of results
             for (int i = 0; i < result.size(); i++) {
-                std::cout << std::setw(2) << (i+1) << ": " << result[i] << std::endl;
+                std::cout << std::setw(2) << (i+1) << ": " << trim(result[i]) << std::endl;
             }
             std::cout << std::endl;
         }

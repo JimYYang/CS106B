@@ -22,6 +22,7 @@
 #include "gbufferedimage.h"
 #include "gwindow.h"
 #include "vector.h"
+#include "map.h"
 
 // function prototype declarations
 // (If you want to declare your own helper function prototypes, do that near
